@@ -4,6 +4,7 @@ import com.grapeup.domain.User;
 import com.grapeup.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,13 +23,13 @@ public class UserResource {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addUser(User user) {
         userRepository.save(user);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
-    @RequestMapping
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {
         return userRepository.findAll();
     }
