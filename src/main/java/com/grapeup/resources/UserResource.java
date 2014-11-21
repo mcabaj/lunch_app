@@ -23,13 +23,13 @@ public class UserResource {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> addUser(User user) {
         userRepository.save(user);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping
     public List<User> getUsers() {
         return userRepository.findAll();
     }
