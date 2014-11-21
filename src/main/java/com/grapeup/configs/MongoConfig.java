@@ -27,7 +27,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @author mcabaj
  */
 @Configuration
-@EnableMongoRepositories(basePackageClasses = UserRepository.class)
+@EnableMongoRepositories({"com.grapeup.repositories"})
 public class MongoConfig {
 
     @Bean
@@ -37,14 +37,9 @@ public class MongoConfig {
         String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
         String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
 
-//        String openshiftMongoDbHost = "localhost";
-//        int openshiftMongoDbPort = 27017;
-//        String username = "lunch_admin";
-//        String password = "lunch123";
         Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
         UserCredentials userCredentials = new UserCredentials(username, password);
         String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-//        String databaseName = "lunch";
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
 
         //remove _class

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author mcabaj
  */
 @EnableWebMvc
-@ComponentScan(basePackageClasses = UserResource.class)
+@ComponentScan({"com.grapeup.resources.", "com.grapeup.websocket"})
 @Configuration
 public class WebMvcConfig {
 }
