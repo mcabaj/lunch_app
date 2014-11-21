@@ -18,6 +18,9 @@ import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
+import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
@@ -33,11 +36,22 @@ public class MongoConfig {
         int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
         String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
         String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
+
+//        String openshiftMongoDbHost = "localhost";
+//        int openshiftMongoDbPort = 27017;
+//        String username = "lunch_admin";
+//        String password = "lunch123";
         Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
         UserCredentials userCredentials = new UserCredentials(username, password);
         String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+//        String databaseName = "lunch";
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
-        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory);
+
+        //remove _class
+        MappingMongoConverter converter = new MappingMongoConverter(mongoDbFactory, new MongoMappingContext());
+        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+
+        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory, converter);
         return mongoTemplate;
     }
 }
