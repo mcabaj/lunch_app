@@ -61,7 +61,7 @@ public class NotificationHandler extends TextWebSocketHandler {
                 clientConnection.authenticate();
                 break;
             case CHAT_MSG:
-                String msg = "new_message?msg="+messageExtractor.getChatMessage(message.getPayload())+"&sender="+clientConnection.getUsername();
+                String msg = "new_message?msg="+messageExtractor.getChatMessage(message.getPayload())+"&sender="+clientConnection.getUsername()+"&time="+System.currentTimeMillis();
                 broadcaster.broadcastMessage(msg);
                 break;
         }

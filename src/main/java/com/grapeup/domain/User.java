@@ -17,6 +17,7 @@ public class User {
     @Indexed(unique=true)
     private String username;
     private String password;
+    private Group group;
 
     public User() {
     }
@@ -43,5 +44,13 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }
