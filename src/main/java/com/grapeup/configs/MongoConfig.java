@@ -27,7 +27,7 @@ import com.mongodb.Mongo;
  * @author mcabaj
  */
 @Configuration
-@EnableMongoRepositories({"com.grapeup.repositories"})
+@EnableMongoRepositories(basePackages ={"com.grapeup.repositories"})
 public class MongoConfig {
 
     @Bean

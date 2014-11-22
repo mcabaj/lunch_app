@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.grapeup.configs.MongoConfig;
 import com.grapeup.configs.WebMvcConfig;
 import com.grapeup.domain.Order;
 import com.grapeup.domain.OrderEntry;
@@ -31,7 +32,7 @@ import com.grapeup.repositories.OrderRepository;
 import com.grapeup.repositories.VenueRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebMvcConfig.class)
+@ContextConfiguration(classes={WebMvcConfig.class, MongoConfig.class})
 @WebAppConfiguration
 public class OrderResourceTest {
 

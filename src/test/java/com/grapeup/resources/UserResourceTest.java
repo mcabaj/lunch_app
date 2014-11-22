@@ -23,12 +23,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.grapeup.configs.MongoConfig;
 import com.grapeup.configs.WebMvcConfig;
 import com.grapeup.domain.User;
 import com.grapeup.repositories.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebMvcConfig.class)
+@ContextConfiguration(classes={WebMvcConfig.class, MongoConfig.class})
 @WebAppConfiguration
 public class UserResourceTest {
     

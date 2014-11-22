@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.google.common.collect.Lists;
+import com.grapeup.configs.MongoConfig;
 import com.grapeup.configs.WebMvcConfig;
 import com.grapeup.domain.Order;
 import com.grapeup.domain.OrderEntry;
@@ -24,7 +25,7 @@ import com.grapeup.domain.Venue;
 import com.grapeup.domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=WebMvcConfig.class)
+@ContextConfiguration(classes={WebMvcConfig.class, MongoConfig.class})
 @WebAppConfiguration
 public class OrderRepositoryTest {
 
