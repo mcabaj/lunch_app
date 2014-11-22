@@ -10,11 +10,10 @@
  */
 package com.grapeup.websocket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,26 +23,30 @@ import java.util.Map;
 @Component
 public class Broadcaster {
 
-    private Map<String, WebSocketSession> webSocketConnections;
+    private static final Logger log = LoggerFactory.getLogger(Broadcaster.class.getName());
+
+    private Map<String, ClientConnection> clientConnections;    // connectionId -> ClientConnection
 
     public Broadcaster() {
-        webSocketConnections = new HashMap<>();
+        clientConnections = new HashMap<>();
     }
 
-    public void addConnection(WebSocketSession session) {
-        webSocketConnections.put(session.getId(), session);
+    public void addConnection(ClientConnection clientConnection) {
+        clientConnections.put(clientConnection.getConnectionId(), clientConnection);
     }
 
-    public void removeConnection(WebSocketSession session) {
-        webSocketConnections.remove(session.getId());
+    public void removeConnection(String connectionId) {
+        clientConnections.remove(connectionId);
+    }
+
+    public ClientConnection getConnection(String connectionId) {
+        return clientConnections.get(connectionId);
     }
 
     public void broadcastMessage(String message) {
-        for(WebSocketSession session : webSocketConnections.values()) {
-            try {
-                session.sendMessage(new TextMessage(message));
-            } catch (IOException e) {
-                // add logs
+        for (ClientConnection connection : clientConnections.values()) {
+            if(connection.isAuthenticated()) {
+                connection.sendMessage(message);
             }
         }
     }
