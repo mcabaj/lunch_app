@@ -40,7 +40,7 @@ public class ClientConnection {
         try {
             session.sendMessage(new TextMessage(message));
         } catch (IOException e) {
-            log.warn("Unable to broadcast message to session {0}", session.getId());
+            log.warn("Unable to broadcast message to session {}", session.getId());
         }
     }
 

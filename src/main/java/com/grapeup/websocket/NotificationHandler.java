@@ -28,37 +28,38 @@ public class NotificationHandler extends TextWebSocketHandler {
     @Autowired
     private Broadcaster broadcaster;
     @Autowired
-    private MessageTypeResolver messageTypeResolver;
+    private MessageExtractor messageExtractor;
     private ClientConnection clientConnection;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         clientConnection = new ClientConnection(session.getId(), session);
         broadcaster.addConnection(clientConnection);
-        log.info("Session {0} added to broadcast clients", session.getId());
+        log.info("Session {} added to broadcast clients", session.getId());
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        MessageType messageType = messageTypeResolver.getMessageType(message.getPayload());
-        if (!isConnectionAuthenticated(session) && !isAuthenticationMessage(message)) {
+        MessageType messageType = messageExtractor.getMessageType(message.getPayload());
+        if (!isConnectionAuthenticated(session) && !isAuthenticationMessage(messageType)) {
             return;
         }
 
         switch (messageType) {
             case AUTHENTICATION:
+                clientConnection.authenticate();
                 // extract token and authenticate user (assign login and groupId to ClientConnection)
                 break;
             case CHAT_MSG:
-                broadcaster.broadcastMessage(message.getPayload());
+                broadcaster.broadcastMessage(messageExtractor.getChatMessage(message.getPayload()));
                 break;
         }
 
-        log.info("Message received from session {0} : {1} ", session.getId(), message);
+        log.info("Message received from session {} : {} ", session.getId(), message);
     }
 
-    private boolean isAuthenticationMessage(TextMessage message) {
-        return MessageType.AUTHENTICATION.equals(message);
+    private boolean isAuthenticationMessage(MessageType type) {
+        return MessageType.AUTHENTICATION.equals(type);
     }
 
     private boolean isConnectionAuthenticated(WebSocketSession session) {
@@ -68,6 +69,6 @@ public class NotificationHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         broadcaster.removeConnection(session.getId());
-        log.info("Session {0} removed from broadcast clients", session.getId());
+        log.info("Session {} removed from broadcast clients", session.getId());
     }
 }
