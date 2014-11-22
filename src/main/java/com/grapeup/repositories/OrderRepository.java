@@ -25,10 +25,7 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, String> {
 
     public List<Order> findAll();
-    
     public List<Order> findByCaller(User caller);
-
     public Order findByVenueId(String venueId);
-    
     
 }

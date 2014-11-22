@@ -24,6 +24,6 @@ import java.util.List;
 public interface VenueRepository extends CrudRepository<Venue, String> {
 
     public List<Venue> findAll();
-    
     public List<Venue> findByName(String name);
+    
 }
