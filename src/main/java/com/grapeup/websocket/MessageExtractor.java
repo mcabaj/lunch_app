@@ -37,4 +37,16 @@ public class MessageExtractor {
             return "";
         }
     }
+
+    public String getToken(String message) {
+        String params = message.split("\\?")[1];
+        String[] split = params.split("=");
+        String key = split[0];
+        if("token".equals(key)) {
+            return split[1];
+        } else {
+            return "";
+        }
+    }
+
 }

@@ -28,7 +28,7 @@ public class AuthUserProviderImpl implements AuthUserProvider {
 
     private static final Logger log = LoggerFactory.getLogger(AuthUserProviderImpl.class.getName());
 
-    private static final int TOKEN_EXPIRATION_MILLIS = 1000 * 30; // 10 sec // TODO change to 10 min ?
+    private static final int TOKEN_EXPIRATION_MILLIS = 1000 * 60 * 60; // 60 min
 
     // username -> token map
     private ConcurrentMap<String, String> tokens = new ConcurrentHashMap<>();
