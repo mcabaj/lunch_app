@@ -34,7 +34,7 @@ public class CORSFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
-        response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, location, authorization");
+        response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, location, AuthToken");
         response.addHeader("Access-Control-Max-Age", "1800"); //30 min
         if (!isOptionRequest(request)) {
             filterChain.doFilter(request, response);
