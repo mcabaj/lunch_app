@@ -1,7 +1,5 @@
 package com.grapeup.resources;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,25 +28,22 @@ public class OrderResource {
     private VenueRepository venueRepository;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> addOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> addOrder(@PathVariable String venueId, @RequestBody Order order) {
+        Venue venue = venueRepository.findOne(venueId);
+        order.setVenue(venue);
     	orderRepository.save(order);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+        return new ResponseEntity<Order>(HttpStatus.CREATED);
     }
-
-//    @RequestMapping
-//    public List<Order> getOrders() {
-//        return orderRepository.findAll();
-//    }
     
     @RequestMapping("/{orderId}")
     public Order getOrder(@PathVariable String venueId, @PathVariable String orderId) {
-        return orderRepository.findOne(orderId);
+        Order findOne = orderRepository.findOne(orderId);
+        return findOne;
     }
     
     @RequestMapping
     public Order getOrders(@PathVariable String venueId) {
-        //Venue venue = venueRepository.findOne(venueId); 
-        //return orderRepository.findByVenue(venue);
         return orderRepository.findByVenueId(venueId);
     }
+    
 }
