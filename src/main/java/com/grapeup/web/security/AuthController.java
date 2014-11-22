@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.grapeup.domain.User;
@@ -48,6 +51,22 @@ public class AuthController {
             log.warn("User '{}' not found; username or password is invalid", username);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return "";
+        }
+    }
+
+    @RequestMapping(value = "/logout")
+    public void logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if (userDetails != null) {
+                String username = userDetails.getUsername();
+                log.debug("Logout user: '{}'", username);
+                authUserProvider.removeAuthUser(username);
+
+                SecurityContextHolder.getContext().setAuthentication(null);
+                SecurityContextHolder.clearContext();
+            }
         }
     }
 }

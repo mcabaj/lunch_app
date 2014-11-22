@@ -52,9 +52,6 @@ public class AuthTokenProcessingFilter extends OncePerRequestFilter {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.debug("User authentication succeeded");
-            } else {
-                log.debug("User authentication failed");
             }
         } else {
             log.warn("Invalid request; authentication token missing");

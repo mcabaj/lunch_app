@@ -17,4 +17,6 @@ public interface AuthUserProvider {
     public String generateToken(User user);
 
     public User getAuthUser(String token);
+
+    public void removeAuthUser(String username);
 }
