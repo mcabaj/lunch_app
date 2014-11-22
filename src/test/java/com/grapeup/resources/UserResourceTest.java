@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.inject.Inject;
 
+import com.grapeup.configs.MongoConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,13 +24,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.grapeup.configs.MongoConfig;
 import com.grapeup.configs.WebMvcConfig;
 import com.grapeup.domain.User;
 import com.grapeup.repositories.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={WebMvcConfig.class, MongoConfig.class})
+@ContextConfiguration(classes = {WebMvcConfig.class, MongoConfig.class})
 @WebAppConfiguration
 public class UserResourceTest {
     

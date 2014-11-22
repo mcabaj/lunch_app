@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.naming.spi.DirStateFactory.Result;
 
+import com.grapeup.configs.MongoConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
