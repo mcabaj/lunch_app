@@ -10,6 +10,7 @@
  */
 package com.grapeup.filter;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +23,7 @@ import java.io.IOException;
 /**
  * @author mcabaj
  */
+@Component
 public class CORSFilter extends OncePerRequestFilter {
 
     /**

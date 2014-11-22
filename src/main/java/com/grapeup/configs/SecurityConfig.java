@@ -22,12 +22,14 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.grapeup.web.security.AuthController;
 
 @Configuration
-@ComponentScan(basePackageClasses = AuthController.class)
+@ComponentScan(basePackageClasses = AuthController.class, basePackages = "com.grapeup.filter")
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "authTokenProcessingFilter")
     private Filter authTokenProcessingFilter;
+    @Resource(name = "CORSFilter")
+    private Filter CORSFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -40,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest()
             .authenticated()
             .and()
+            .addFilterBefore(CORSFilter, BasicAuthenticationFilter.class)
             .addFilterBefore(authTokenProcessingFilter, BasicAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

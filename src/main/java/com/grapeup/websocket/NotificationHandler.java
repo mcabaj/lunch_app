@@ -46,6 +46,7 @@ public class NotificationHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         MessageType messageType = messageExtractor.getMessageType(message.getPayload());
         if (!isConnectionAuthenticated(session) && !isAuthenticationMessage(messageType)) {
+            session.sendMessage(new TextMessage("You are not authenticated"));
             return;
         }
 
@@ -60,7 +61,8 @@ public class NotificationHandler extends TextWebSocketHandler {
                 clientConnection.authenticate();
                 break;
             case CHAT_MSG:
-                broadcaster.broadcastMessage(messageExtractor.getChatMessage(message.getPayload()));
+                String msg = "new_message?msg="+messageExtractor.getChatMessage(message.getPayload())+"&sender="+clientConnection.getUsername();
+                broadcaster.broadcastMessage(msg);
                 break;
         }
 

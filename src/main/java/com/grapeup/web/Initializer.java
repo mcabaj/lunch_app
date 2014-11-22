@@ -26,11 +26,6 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     }
 
     @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{new CORSFilter()};
-    }
-
-    @Override
     protected String[] getServletMappings() {
         return new String[] {"/*"};
     }
