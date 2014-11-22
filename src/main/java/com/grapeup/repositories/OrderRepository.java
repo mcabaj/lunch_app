@@ -27,5 +27,6 @@ public interface OrderRepository extends CrudRepository<Order, String> {
     public List<Order> findAll();
     public List<Order> findByCaller(User caller);
     public List<Order> findByVenueId(String venueId);
+    public List<Order> findByVenueIdAndDeliveredAndOrdered(String venueId, boolean delivered, boolean ordered);
     
 }

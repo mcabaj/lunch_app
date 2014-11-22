@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import org.junit.After;
@@ -28,7 +30,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.grapeup.configs.MongoConfig;
 import com.grapeup.configs.WebMvcConfig;
+import com.grapeup.domain.Order;
+import com.grapeup.domain.OrderEntry;
 import com.grapeup.domain.Venue;
+import com.grapeup.repositories.OrderRepository;
 import com.grapeup.repositories.UserRepository;
 import com.grapeup.repositories.VenueRepository;
 
@@ -45,27 +50,38 @@ public class OrderEntryResourceTest {
     @Autowired
     private VenueRepository venueRepository;
     
+    @Autowired
+    private OrderRepository orderRepository;
+    
+    
     private MockMvc mockMvc;
+    
+    private com.grapeup.domain.User testUser;
+
+    private Venue testVenue;
 
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        com.grapeup.domain.User testUser = new com.grapeup.domain.User();
+        testUser = new com.grapeup.domain.User();
         testUser.setId("1");
         testUser.setUsername("testUser");
         userRepository.save(testUser);
-        Venue venue = new Venue();
-        venue.setId("1");
-        venue.setName("testVenue");
-        venueRepository.save(venue);
+        testVenue = new Venue();
+        testVenue.setId("1");
+        testVenue.setName("testVenue");
+        venueRepository.save(testVenue);
     }
 
     @After
     public void tearDown() throws Exception {
+        userRepository.deleteAll();
+        venueRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test
-    public void testAddOrderEntry() throws Exception {
+    public void addOrderEntryWhenThereAreNone() throws Exception {
         User user = new User("testUser","", AuthorityUtils.createAuthorityList("ROLE_PATRON"));
         TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
@@ -81,6 +97,39 @@ public class OrderEntryResourceTest {
             .andExpect(jsonPath("$[0].venue.name", is("testVenue")))
             .andExpect(jsonPath("$[0].orders.[0].user.username", is("user1")))
             .andExpect(jsonPath("$[0].caller.username", is("testUser")))
+            .andReturn();
+        
+        System.out.println(ret.getResponse().getContentAsString());
+    }
+    
+    @Test
+    public void addOrderEntryWhenThereIsAlreadyOnePresent() throws Exception {
+        Order order = new Order();
+        com.grapeup.domain.User caller = new com.grapeup.domain.User();
+        caller.setUsername("aontherUser");
+        order.setVenue(testVenue);
+        order.setCaller(caller);
+        order.setOrdered(true);
+        order.setDelivered(false);
+        order.setOrders(new ArrayList<OrderEntry>());
+        orderRepository.save(order);
+        
+        User user = new User("testUser","", AuthorityUtils.createAuthorityList("ROLE_PATRON"));
+        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
+        SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
+ 
+        
+        String orderEntry = "{\"user\":{\"username\":\"user1\",\"password\":\"pass\"},\"food\":\"pizza\"}";
+        //String order = "{}";
+        mockMvc.perform(post("/venues/1/orderentries").principal(testingAuthenticationToken).contentType(MediaType.APPLICATION_JSON).content(orderEntry))
+            .andExpect(status().isCreated());
+        // TODO: orderentry is not added to order
+        MvcResult ret = mockMvc.perform(get("/venues/1/orders"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].venue.name", is("testVenue")))
+            .andExpect(jsonPath("$[0].caller.username", is("aontherUser")))
+            //.andExpect(jsonPath("$[0].orders[0].user.username", is("user1")))
+            //.andExpect(jsonPath("$[0].orders", is("user1")))
             .andReturn();
         
         System.out.println(ret.getResponse().getContentAsString());

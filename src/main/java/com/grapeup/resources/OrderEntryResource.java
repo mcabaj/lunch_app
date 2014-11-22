@@ -49,6 +49,7 @@ public class OrderEntryResource {
         for (Order order : orders) {
             if (order.isOrdered() && !order.isDelivered()) {
                 order.getOrders().add(orderEntry);
+                orderEntryRepository.save(orderEntry);
                 return new ResponseEntity<Void>(HttpStatus.CREATED);
             }
         }
@@ -56,7 +57,8 @@ public class OrderEntryResource {
         List<User> user = userRepository.findByUsername(username);
         Venue venue = venueRepository.findOne(venueId);
         if (user != null && user.size() == 1 && venue != null) {
-            Order order = crateOrder(venueId, user.get(0), venue, orderEntry);
+            orderEntryRepository.save(orderEntry);
+            Order order = crateOrder(user.get(0), venue, orderEntry);
             orderRepository.save(order);    
             return new ResponseEntity<Void>(HttpStatus.CREATED); 
         } else {
@@ -64,16 +66,16 @@ public class OrderEntryResource {
         }
     }
 
-    private Order crateOrder(String venueId, User user, Venue venue, OrderEntry orderEntry) {
-        List<OrderEntry> orderEntries;
+    private Order crateOrder(User user, Venue venue, OrderEntry orderEntry) {
         
         Order order = new Order();
         order.setDate(Calendar.getInstance().getTime());
         order.setVenue(venue);
         order.setCaller(user);
-        orderEntries = new ArrayList<>();
+        List<OrderEntry> orderEntries = new ArrayList<>();
         orderEntries.add(orderEntry);
         order.setOrders(orderEntries);
+        orderEntryRepository.save(orderEntries);   
         return order;
     }
     
