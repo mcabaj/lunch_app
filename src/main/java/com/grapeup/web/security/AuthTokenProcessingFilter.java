@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.grapeup.domain.User;
@@ -40,23 +41,36 @@ public class AuthTokenProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
 
-        String token = request.getHeader("AuthToken");
-        if (token != null) {
-            log.debug("Token retrieved from 'AuthToken' header: {}", token);
-            User user = authUserProvider.getAuthUser(token);
-            if (user != null) {
-                UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                    user.getUsername(), user.getPassword(), Collections.EMPTY_LIST);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+        if (isOptionRequest(request)) {
+            response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
+            response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, location, authorization");
+            response.addHeader("Access-Control-Max-Age", "1800"); //30 min
+            return;
         } else {
-            log.warn("Invalid request; authentication token missing");
-        }
 
-        filterChain.doFilter(request, response);
+            String token = request.getHeader("AuthToken");
+            if (token != null) {
+                log.debug("Token retrieved from 'AuthToken' header: {}", token);
+                User user = authUserProvider.getAuthUser(token);
+                if (user != null) {
+                    UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                            user.getUsername(), user.getPassword(), Collections.EMPTY_LIST);
+                    Authentication authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } else {
+                log.warn("Invalid request; authentication token missing");
+            }
+
+            filterChain.doFilter(request, response);
+        }
+    }
+
+    private boolean isOptionRequest(HttpServletRequest request) {
+        return RequestMethod.OPTIONS.toString().equals(request.getMethod());
     }
 }
