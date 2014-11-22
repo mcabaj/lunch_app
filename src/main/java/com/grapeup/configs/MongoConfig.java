@@ -37,14 +37,20 @@ public class MongoConfig {
         String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
         String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
 
+        if (username == null) {
+            username = "";
+        }
+        if (password == null) {
+            password = "";
+        }
 //        String openshiftMongoDbHost = "localhost";
 //        int openshiftMongoDbPort = 27017;
 //        String username = "";
 //        String password = "";
         Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
         UserCredentials userCredentials = new UserCredentials(username, password);
- //       String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-        String databaseName = "lunch";
+        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+        //String databaseName = "lunch";
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
 
         //remove _class
