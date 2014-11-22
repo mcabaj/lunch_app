@@ -32,15 +32,15 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-//        String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
-//        int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
-//        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
-//        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
+        String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
+        int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
+        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
+        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
 
-        String openshiftMongoDbHost = "localhost";
-        int openshiftMongoDbPort = 27017;
-        String username = "";
-        String password = "";
+//        String openshiftMongoDbHost = "localhost";
+//        int openshiftMongoDbPort = 27017;
+//        String username = "";
+//        String password = "";
         Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
         UserCredentials userCredentials = new UserCredentials(username, password);
  //       String databaseName = System.getenv("OPENSHIFT_APP_NAME");

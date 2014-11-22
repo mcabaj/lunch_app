@@ -22,9 +22,8 @@ public class UserResource {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.POST, 
-            consumes="application/json",
-            produces="application/json")
+    
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User created = userRepository.save(user);
         return new ResponseEntity<User>(created, HttpStatus.CREATED);
