@@ -10,12 +10,14 @@ package com.grapeup.configs;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 
+import com.grapeup.filter.CORSFilter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -37,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.logout().disable();
+        http.addFilterBefore(CORSFilter, ChannelProcessingFilter.class);
         http.authorizeRequests().antMatchers("/login").permitAll();
         http.authorizeRequests().antMatchers("/websocket").permitAll();
 

@@ -43,31 +43,22 @@ public class AuthTokenProcessingFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (isOptionRequest(request)) {
-            response.addHeader("Access-Control-Allow-Origin", "*");
-            response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
-            response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, location, authorization");
-            response.addHeader("Access-Control-Max-Age", "1800"); //30 min
-            return;
-        } else {
-
-            String token = request.getHeader("AuthToken");
-            if (token != null) {
-                log.debug("Token retrieved from 'AuthToken' header: {}", token);
-                User user = authUserProvider.getAuthUser(token);
-                if (user != null) {
-                    UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                            user.getUsername(), user.getPassword(), Collections.EMPTY_LIST);
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } else {
-                log.warn("Invalid request; authentication token missing");
+        String token = request.getHeader("AuthToken");
+        if (token != null) {
+            log.debug("Token retrieved from 'AuthToken' header: {}", token);
+            User user = authUserProvider.getAuthUser(token);
+            if (user != null) {
+                UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                        user.getUsername(), user.getPassword(), Collections.EMPTY_LIST);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
-            filterChain.doFilter(request, response);
+        } else {
+            log.warn("Invalid request; authentication token missing");
         }
+
+        filterChain.doFilter(request, response);
     }
 
     private boolean isOptionRequest(HttpServletRequest request) {
