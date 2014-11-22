@@ -29,6 +29,7 @@ public class ClientConnection {
     private String connectionId;
     private WebSocketSession session;
     private boolean isAuthenticated;
+    private String username;
 
     public ClientConnection(String connectionId, WebSocketSession session) {
         this.connectionId = connectionId;
@@ -40,8 +41,16 @@ public class ClientConnection {
         try {
             session.sendMessage(new TextMessage(message));
         } catch (IOException e) {
-            log.warn("Unable to broadcast message to session {0}", session.getId());
+            log.warn("Unable to broadcast message to session {}", session.getId());
         }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getConnectionId() {

@@ -15,7 +15,8 @@ package com.grapeup.websocket;
  */
 public enum MessageType {
     AUTHENTICATION("authenticate"),
-    CHAT_MSG("send_message");
+    CHAT_MSG("send_message"),
+    UNKNOWN("unknown");
 
     private String messageType;
 
@@ -30,6 +31,7 @@ public enum MessageType {
                     return messageType;
                 }
             }
+            return UNKNOWN;
         }
         throw new IllegalArgumentException("MessageType not found: " + messageTypeName);
     }

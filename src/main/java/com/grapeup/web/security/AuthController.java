@@ -38,18 +38,14 @@ public class AuthController {
         String username = credentials.getUsername();
         String password = credentials.getPassword();
 
-        User user = new User();//userRepository.findByUsernameAndPassword(username, password);
-        user.setUsername("grape");
-        user.setPassword("grape");
-        //if (user == null) {
-        // TODO
-        if (username.equals("grape") && password.equals("grape")) {
-            log.debug("User {} found; generating auth token");
+        User user = userRepository.findByUsernameAndPassword(username, password);
+        if (user != null) {
+            log.debug("User '{}' found; generating auth token", username);
             String token = authUserProvider.generateToken(user);
             response.setStatus(HttpStatus.OK.value());
             return token;
         } else {
-            log.warn("User {} not found; username or password is invalid", username);
+            log.warn("User '{}' not found; username or password is invalid", username);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return "";
         }
