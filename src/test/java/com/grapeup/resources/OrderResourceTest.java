@@ -110,18 +110,18 @@ public class OrderResourceTest {
     public void getOrders() throws Exception {
         mockMvc.perform(get("/venues/1/orders"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.delivered", is(false)))
-            .andExpect(jsonPath("$.orders.[0]food", is("pizza")))
-            .andExpect(jsonPath("$.orders.[1]food", is("sandwich")));
+            .andExpect(jsonPath("$[0].delivered", is(false)))
+            .andExpect(jsonPath("$[0].orders.[0]food", is("pizza")))
+            .andExpect(jsonPath("$[0].orders.[1]food", is("sandwich")));
     }
     
     @Test
     public void getOrder() throws Exception {
         mockMvc.perform(get("/venues/1/orders"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.delivered", is(false)))
-            .andExpect(jsonPath("$.orders.[0]food", is("pizza")))
-            .andExpect(jsonPath("$.orders.[1]food", is("sandwich")));
+            .andExpect(jsonPath("$[0].delivered", is(false)))
+            .andExpect(jsonPath("$[0].orders.[0]food", is("pizza")))
+            .andExpect(jsonPath("$[0].orders.[1]food", is("sandwich")));
     }
     
     private User craeteUser(String username, String password, String id) {

@@ -1,5 +1,7 @@
 package com.grapeup.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class OrderResource {
     }
     
     @RequestMapping
-    public Order getOrders(@PathVariable String venueId) {
+    public List<Order> getOrders(@PathVariable String venueId) {
         return orderRepository.findByVenueId(venueId);
     }
     

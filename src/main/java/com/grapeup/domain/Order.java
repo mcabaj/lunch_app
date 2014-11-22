@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "orders")
@@ -16,6 +17,7 @@ public class Order {
 	private User caller;
 	private Date date;
 	private Integer eta;
+	private boolean ordered;
 	private boolean delivered;
 	
 	
@@ -60,6 +62,12 @@ public class Order {
     }
     public void setId(String id) {
         this.id = id;
+    }
+    public boolean isOrdered() {
+        return ordered;
+    }
+    public void setOrdered(boolean ordered) {
+        this.ordered = ordered;
     }
 
 	

@@ -25,6 +25,5 @@ import com.grapeup.domain.User;
 public interface OrderEntryRepository extends CrudRepository<OrderEntry, String> {
 
     public List<OrderEntry> findAll();
-    public List<OrderEntry> findByUser(User user);
     
 }
