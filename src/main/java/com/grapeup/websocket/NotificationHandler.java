@@ -10,6 +10,8 @@
  */
 package com.grapeup.websocket;
 
+import com.grapeup.domain.User;
+import com.grapeup.web.security.AuthUserProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class NotificationHandler extends TextWebSocketHandler {
     private Broadcaster broadcaster;
     @Autowired
     private MessageExtractor messageExtractor;
+    @Autowired
+    private AuthUserProvider authUserProvider;
     private ClientConnection clientConnection;
 
     @Override
@@ -47,8 +51,13 @@ public class NotificationHandler extends TextWebSocketHandler {
 
         switch (messageType) {
             case AUTHENTICATION:
+                User authUser = authUserProvider.getAuthUser(messageExtractor.getToken(message.getPayload()));
+                if(authUser == null) {
+                    session.sendMessage(new TextMessage("Invalid token"));
+                    return;
+                }
+                clientConnection.setUsername(authUser.getUsername());
                 clientConnection.authenticate();
-                // extract token and authenticate user (assign login and groupId to ClientConnection)
                 break;
             case CHAT_MSG:
                 broadcaster.broadcastMessage(messageExtractor.getChatMessage(message.getPayload()));

@@ -2,6 +2,7 @@ package com.grapeup.resources;
 
 import java.util.List;
 
+import com.grapeup.websocket.ChangeNotifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,13 @@ public class VenueResource {
 
     @Autowired
     private VenueRepository venueRepository;
+    @Autowired
+    private ChangeNotifier changeNotifier;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Venue> addVenue(@RequestBody Venue venue) {
     	Venue created = venueRepository.save(venue);
+        changeNotifier.notifyVenuesChanged();
         return new ResponseEntity<Venue>(created, HttpStatus.CREATED);
     }
 
