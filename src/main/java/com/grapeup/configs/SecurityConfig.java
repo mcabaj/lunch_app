@@ -37,12 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.logout().disable();
+        http.authorizeRequests().antMatchers("/login").permitAll();
         http.authorizeRequests().antMatchers("/websocket").permitAll();
 
         http.authorizeRequests().anyRequest()
             .authenticated()
             .and()
-            .addFilterBefore(CORSFilter, BasicAuthenticationFilter.class)
             .addFilterBefore(authTokenProcessingFilter, BasicAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
