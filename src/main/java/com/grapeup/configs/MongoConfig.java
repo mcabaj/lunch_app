@@ -27,7 +27,7 @@ import com.mongodb.Mongo;
  * @author mcabaj
  */
 @Configuration
-@EnableMongoRepositories(basePackages = "com.grapeup.domain")
+@EnableMongoRepositories({"com.grapeup.repositories"})
 public class MongoConfig {
 
     @Bean
@@ -43,14 +43,10 @@ public class MongoConfig {
         if (password == null) {
             password = "";
         }
-//        String openshiftMongoDbHost = "localhost";
-//        int openshiftMongoDbPort = 27017;
-//        String username = "";
-//        String password = "";
+
         Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
         UserCredentials userCredentials = new UserCredentials(username, password);
         String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-        //String databaseName = "lunch";
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
 
         //remove _class

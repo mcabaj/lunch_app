@@ -8,22 +8,22 @@
  * The copyright notice above does not evidence any actual
  * or intended publication of such source code.
  */
-package com.grapeup.repositories;
+package com.grapeup.websocket;
 
-import com.grapeup.domain.Venue;
-
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
+ * //@todo class description
+ *
  * @author mcabaj
  */
-@Repository
-public interface VenueRepository extends CrudRepository<Venue, String> {
+@Component
+public class MessageTypeResolver {
 
-    public List<Venue> findAll();
-    
-    public List<Venue> findByName(String name);
+    public MessageType getMessageType(String message) {
+        String typeName = message.split("\\?")[0];
+        MessageType messageType = MessageType.getByMessageTypeName(typeName);
+
+        return messageType;
+    }
 }
