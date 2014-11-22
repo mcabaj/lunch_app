@@ -36,7 +36,9 @@ public class AuthUserProviderImpl implements AuthUserProvider {
         log.debug("Generated auth token {} for user {}", token, username);
 
         String oldToken = tokens.replace(username, token);
-        authUsers.remove(oldToken);
+        if (oldToken != null) {
+            authUsers.remove(oldToken);
+        }
         authUsers.put(token, user);
 
         return token;
