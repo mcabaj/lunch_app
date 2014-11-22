@@ -10,8 +10,6 @@
  */
 package com.grapeup.configs;
 
-import com.grapeup.repositories.UserRepository;
-import com.mongodb.Mongo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.authentication.UserCredentials;
@@ -23,11 +21,13 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import com.mongodb.Mongo;
+
 /**
  * @author mcabaj
  */
 @Configuration
-@EnableMongoRepositories(basePackageClasses = UserRepository.class)
+@EnableMongoRepositories(basePackages = "com.grapeup.domain")
 public class MongoConfig {
 
     @Bean
