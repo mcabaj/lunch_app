@@ -2,6 +2,7 @@ package com.grapeup.resources;
 
 import com.grapeup.domain.User;
 import com.grapeup.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,14 +22,27 @@ public class UserResource {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> addUser(@RequestBody User user) {
-        userRepository.save(user);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    @RequestMapping(method = RequestMethod.POST, 
+            consumes="application/json",
+            produces="application/json")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        User created = userRepository.save(user);
+        return new ResponseEntity<User>(created, HttpStatus.CREATED);
     }
 
     @RequestMapping
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+    
+    @RequestMapping("/{userId}")
+    public User getUser(@PathVariable String userId) {
+        return userRepository.findOne(userId);
+    }
+    
+    @RequestMapping("/{userId}/delete")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
+        userRepository.delete(userId);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

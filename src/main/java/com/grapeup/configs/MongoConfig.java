@@ -32,19 +32,19 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
-        int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
-        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
-        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
+//        String openshiftMongoDbHost = System.getenv("OPENSHIFT_MONGODB_DB_HOST");
+//        int openshiftMongoDbPort = Integer.parseInt(System.getenv("OPENSHIFT_MONGODB_DB_PORT"));
+//        String username = System.getenv("OPENSHIFT_MONGODB_DB_USERNAME");
+//        String password = System.getenv("OPENSHIFT_MONGODB_DB_PASSWORD");
 
-//        String openshiftMongoDbHost = "localhost";
-//        int openshiftMongoDbPort = 27017;
-//        String username = "lunch_admin";
-//        String password = "lunch123";
+        String openshiftMongoDbHost = "localhost";
+        int openshiftMongoDbPort = 27017;
+        String username = "";
+        String password = "";
         Mongo mongo = new Mongo(openshiftMongoDbHost, openshiftMongoDbPort);
         UserCredentials userCredentials = new UserCredentials(username, password);
-        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
-//        String databaseName = "lunch";
+ //       String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+        String databaseName = "lunch";
         MongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, databaseName, userCredentials);
 
         //remove _class
