@@ -1,30 +1,29 @@
 package com.grapeup.web;
 
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
 import com.grapeup.configs.MongoConfig;
+import com.grapeup.configs.SecurityConfig;
 import com.grapeup.configs.WebMvcConfig;
 import com.grapeup.configs.WebSocketConfig;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 /**
  * @author mcabaj
  */
-public class Initializer implements WebApplicationInitializer {
+public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-        dispatcherContext.register(WebMvcConfig.class, MongoConfig.class, WebSocketConfig.class);
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class<?>[] {WebMvcConfig.class, SecurityConfig.class, MongoConfig.class, WebSocketConfig.class};
+    }
 
-        // Register and map the dispatcher servlet
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[0];
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] {"/*"};
     }
 }

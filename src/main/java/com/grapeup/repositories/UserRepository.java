@@ -23,6 +23,11 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, String> {
 
     public List<User> findAll();
+<<<<<<< HEAD
     
     public List<User> findByUsername(String username);
+=======
+
+    public User findByUsernameAndPassword(String username, String password);
+>>>>>>> 8fd68e94995854eaccb45ca19aafae63c94f4e06
 }
