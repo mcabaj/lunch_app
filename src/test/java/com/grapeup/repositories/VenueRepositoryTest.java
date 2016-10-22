@@ -1,14 +1,8 @@
 package com.grapeup.repositories;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
-
-import java.util.List;
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.grapeup.configs.MongoConfig;
+import com.grapeup.configs.WebMvcConfig;
+import com.grapeup.domain.Venue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,9 +12,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.grapeup.configs.MongoConfig;
-import com.grapeup.configs.WebMvcConfig;
-import com.grapeup.domain.Venue;
+import java.util.List;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={WebMvcConfig.class, MongoConfig.class})

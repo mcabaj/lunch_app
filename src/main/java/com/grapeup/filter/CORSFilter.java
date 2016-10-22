@@ -1,13 +1,3 @@
-/*
- * Avaya Inc. – Proprietary (Restricted)
- * Solely for authorized persons having a need to know
- * pursuant to Company instructions.
- *
- * Copyright © 2006-2014 Avaya Inc. All rights reserved.
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Avaya Inc.
- * The copyright notice above does not evidence any actual
- * or intended publication of such source code.
- */
 package com.grapeup.filter;
 
 import org.springframework.stereotype.Component;
@@ -20,9 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @author mcabaj
- */
 @Component
 public class CORSFilter extends OncePerRequestFilter {
 

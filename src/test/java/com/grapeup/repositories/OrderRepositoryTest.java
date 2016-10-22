@@ -1,13 +1,12 @@
 package com.grapeup.repositories;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
-
-import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
-
+import com.google.common.collect.Lists;
 import com.grapeup.configs.MongoConfig;
+import com.grapeup.configs.WebMvcConfig;
+import com.grapeup.domain.Order;
+import com.grapeup.domain.OrderEntry;
+import com.grapeup.domain.User;
+import com.grapeup.domain.Venue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.google.common.collect.Lists;
-import com.grapeup.configs.MongoConfig;
-import com.grapeup.configs.WebMvcConfig;
-import com.grapeup.domain.Order;
-import com.grapeup.domain.OrderEntry;
-import com.grapeup.domain.Venue;
-import com.grapeup.domain.User;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={WebMvcConfig.class, MongoConfig.class})

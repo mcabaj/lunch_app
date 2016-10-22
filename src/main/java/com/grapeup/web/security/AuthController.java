@@ -1,14 +1,8 @@
-/*
- * Copyright (C) Grape Software
- *
- * All rights reserved. Any use, copying, modification, distribution and selling 
- * of this software and it's documentation for any purposes without authors' written
- * permission is hereby prohibited.
- */
 package com.grapeup.web.security;
 
-import javax.servlet.http.HttpServletResponse;
-
+import com.grapeup.domain.User;
+import com.grapeup.dto.CredentialsDto;
+import com.grapeup.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import com.grapeup.domain.User;
-import com.grapeup.dto.CredentialsDto;
-import com.grapeup.repositories.UserRepository;
+import javax.servlet.http.HttpServletResponse;
 
-/**
- * @author rosw
- */
 @RestController
 public class AuthController {
 

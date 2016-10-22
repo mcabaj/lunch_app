@@ -1,13 +1,3 @@
-/*
- * Avaya Inc. – Proprietary (Restricted)
- * Solely for authorized persons having a need to know
- * pursuant to Company instructions.
- *
- * Copyright © 2006-2014 Avaya Inc. All rights reserved.
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Avaya Inc.
- * The copyright notice above does not evidence any actual
- * or intended publication of such source code.
- */
 package com.grapeup.configs;
 
 import org.springframework.context.annotation.Bean;
@@ -23,9 +13,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 import com.mongodb.Mongo;
 
-/**
- * @author mcabaj
- */
 @Configuration
 @EnableMongoRepositories(basePackages ={"com.grapeup.repositories"})
 public class MongoConfig {

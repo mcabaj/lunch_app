@@ -1,32 +1,18 @@
-/*
- * Avaya Inc. – Proprietary (Restricted)
- * Solely for authorized persons having a need to know
- * pursuant to Company instructions.
- *
- * Copyright © 2006-2014 Avaya Inc. All rights reserved.
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Avaya Inc.
- * The copyright notice above does not evidence any actual
- * or intended publication of such source code.
- */
 package com.grapeup.repositories;
 
 import com.grapeup.domain.Order;
 import com.grapeup.domain.User;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @author mcabaj
- */
 @Repository
 public interface OrderRepository extends CrudRepository<Order, String> {
 
-    public List<Order> findAll();
-    public List<Order> findByCaller(User caller);
-    public List<Order> findByVenueId(String venueId);
-    public List<Order> findByVenueIdAndDeliveredAndOrdered(String venueId, boolean delivered, boolean ordered);
+    List<Order> findAll();
+    List<Order> findByCaller(User caller);
+    List<Order> findByVenueId(String venueId);
+    List<Order> findByVenueIdAndDeliveredAndOrdered(String venueId, boolean delivered, boolean ordered);
     
 }

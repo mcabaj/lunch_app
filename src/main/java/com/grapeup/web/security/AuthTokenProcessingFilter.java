@@ -1,20 +1,6 @@
-/*
- * Copyright (C) Grape Software
- *
- * All rights reserved. Any use, copying, modification, distribution and selling 
- * of this software and it's documentation for any purposes without authors' written
- * permission is hereby prohibited.
- */
 package com.grapeup.web.security;
 
-import java.io.IOException;
-import java.util.Collections;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.grapeup.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +12,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.grapeup.domain.User;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
 
-/**
- * @author rosw
- */
 @Component
 public class AuthTokenProcessingFilter extends OncePerRequestFilter {
 

@@ -1,13 +1,3 @@
-/*
- * Avaya Inc. – Proprietary (Restricted)
- * Solely for authorized persons having a need to know
- * pursuant to Company instructions.
- *
- * Copyright © 2006-2014 Avaya Inc. All rights reserved.
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF Avaya Inc.
- * The copyright notice above does not evidence any actual
- * or intended publication of such source code.
- */
 package com.grapeup.websocket;
 
 import org.slf4j.Logger;
@@ -17,11 +7,6 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 
-/**
- * //@todo class description
- *
- * @author mcabaj
- */
 public class ClientConnection {
 
     private static final Logger log = LoggerFactory.getLogger(ClientConnection.class.getName());

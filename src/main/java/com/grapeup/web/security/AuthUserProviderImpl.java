@@ -1,16 +1,6 @@
-/*
- * Copyright (C) Grape Software
- *
- * All rights reserved. Any use, copying, modification, distribution and selling 
- * of this software and it's documentation for any purposes without authors' written
- * permission is hereby prohibited.
- */
 package com.grapeup.web.security;
 
-import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
+import com.grapeup.domain.User;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -18,11 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.grapeup.domain.User;
+import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-/**
- * @author rosw
- */
 @Component
 public class AuthUserProviderImpl implements AuthUserProvider {
 

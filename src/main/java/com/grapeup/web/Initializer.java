@@ -1,18 +1,11 @@
 package com.grapeup.web;
 
-import com.grapeup.filter.CORSFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
 import com.grapeup.configs.MongoConfig;
 import com.grapeup.configs.SecurityConfig;
 import com.grapeup.configs.WebMvcConfig;
 import com.grapeup.configs.WebSocketConfig;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
-
-/**
- * @author mcabaj
- */
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override

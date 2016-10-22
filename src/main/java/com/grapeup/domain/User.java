@@ -1,14 +1,9 @@
 package com.grapeup.domain;
 
-import javax.annotation.Generated;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * @author mcabaj
- */
 @Document(collection = "users")
 public class User {
 
